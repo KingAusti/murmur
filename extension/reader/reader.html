@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" data-murmur-reader data-theme="auto" data-font="sans" data-width="normal" data-focus="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <!-- Images are hotlinked from the source site; an empty referrer is both more private and less often blocked. -->
+  <meta name="referrer" content="no-referrer">
+  <title>Murmur Reader</title>
+  <link rel="stylesheet" href="reader.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="toolbar" id="toolbar">
+    <div class="toolbar-inner">
+      <a class="tb-source" id="source-link" target="_blank" rel="noopener noreferrer" title="Open the original page">
+        <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H5.5A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16h9a1.5 1.5 0 0 0 1.5-1.5V12M11 4h5v5M16 4l-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="source-host">Murmur Reader</span>
+      </a>
+      <div class="tb-actions">
+        <button type="button" class="tb-btn tb-listen" id="listen-mini" hidden>
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 4.6v10.8a.8.8 0 0 0 1.2.7l8.6-5.4a.8.8 0 0 0 0-1.4L7.7 3.9a.8.8 0 0 0-1.2.7Z" fill="currentColor"/></svg>
+          <span>Listen</span>
+        </button>
+        <button type="button" class="tb-btn" id="focus-toggle" aria-pressed="false" title="Focus mode: dim everything except the paragraph being read">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6.5V4.5A1.5 1.5 0 0 1 4.5 3h2M13.5 3h2A1.5 1.5 0 0 1 17 4.5v2M17 13.5v2a1.5 1.5 0 0 1-1.5 1.5h-2M6.5 17h-2A1.5 1.5 0 0 1 3 15.5v-2M7 10h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span class="tb-label">Focus</span>
+        </button>
+        <button type="button" class="tb-btn" id="settings-toggle" popovertarget="settings" title="Text settings" aria-label="Text settings">
+          <span class="aa" aria-hidden="true">Aa</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="settings" class="settings" popover aria-label="Text settings">
+    <fieldset class="setting">
+      <legend>Theme</legend>
+      <div class="swatches">
+        <label class="swatch swatch-auto" title="Match system"><input type="radio" name="theme" value="auto"><span>Auto</span></label>
+        <label class="swatch swatch-light" title="Light"><input type="radio" name="theme" value="light"><span>Light</span></label>
+        <label class="swatch swatch-sepia" title="Sepia"><input type="radio" name="theme" value="sepia"><span>Sepia</span></label>
+        <label class="swatch swatch-dark" title="Dark"><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="setting">
+      <legend>Typeface</legend>
+      <div class="segmented">
+        <label class="seg-sans"><input type="radio" name="font" value="sans"><span>Sans</span></label>
+        <label class="seg-serif"><input type="radio" name="font" value="serif"><span>Serif</span></label>
+      </div>
+    </fieldset>
+
+    <div class="setting setting-row">
+      <span class="setting-name" id="size-label">Text size</span>
+      <div class="stepper" role="group" aria-labelledby="size-label">
+        <button type="button" data-step="size" data-dir="-1" aria-label="Smaller text"><span class="a-small" aria-hidden="true">A</span></button>
+        <output id="size-value" aria-live="polite">20</output>
+        <button type="button" data-step="size" data-dir="1" aria-label="Larger text"><span class="a-large" aria-hidden="true">A</span></button>
+      </div>
+    </div>
+
+    <div class="setting setting-row">
+      <span class="setting-name" id="leading-label">Line spacing</span>
+      <div class="stepper" role="group" aria-labelledby="leading-label">
+        <button type="button" data-step="leading" data-dir="-1" aria-label="Tighter line spacing">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7h12M4 10h12M4 13h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <output id="leading-value" aria-live="polite">1.7</output>
+        <button type="button" data-step="leading" data-dir="1" aria-label="Looser line spacing">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5h12M4 10h12M4 15h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <fieldset class="setting">
+      <legend>Line length</legend>
+      <div class="segmented">
+        <label><input type="radio" name="width" value="narrow"><span>Narrow</span></label>
+        <label><input type="radio" name="width" value="normal"><span>Normal</span></label>
+        <label><input type="radio" name="width" value="wide"><span>Wide</span></label>
+      </div>
+    </fieldset>
+  </div>
+
+  <main id="main">
+    <section id="state" class="state" aria-live="polite">
+      <div class="skeleton" id="state-loading" aria-busy="true" aria-label="Loading article">
+        <div class="sk sk-kicker"></div>
+        <div class="sk sk-title"></div>
+        <div class="sk sk-title short"></div>
+        <div class="sk sk-meta"></div>
+        <div class="sk sk-line"></div><div class="sk sk-line"></div><div class="sk sk-line"></div><div class="sk sk-line short"></div>
+        <div class="sk sk-line"></div><div class="sk sk-line"></div><div class="sk sk-line shorter"></div>
+      </div>
+
+      <div class="notice" id="state-error" hidden>
+        <svg class="notice-icon" viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="6" width="28" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M17 16h14M17 22h14M17 28h8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <h1 class="notice-title" id="error-title">Couldn’t open this page in Reader view</h1>
+        <p class="notice-body" id="error-body"></p>
+        <p class="notice-detail" id="error-detail"></p>
+        <div class="notice-actions">
+          <button type="button" class="btn btn-primary" id="retry">Try again</button>
+          <button type="button" class="btn" id="paste-open">Paste text instead</button>
+        </div>
+      </div>
+
+      <form class="notice paste" id="state-paste" hidden>
+        <h1 class="notice-title">Paste text to read</h1>
+        <p class="notice-body">Copy a passage from anywhere and paste it here. Blank lines start new paragraphs.</p>
+        <label class="sr-only" for="paste-text">Text to read</label>
+        <textarea id="paste-text" rows="10" placeholder="Paste here…"></textarea>
+        <div class="notice-actions">
+          <button type="submit" class="btn btn-primary">Open in reader</button>
+        </div>
+      </form>
+    </section>
+
+    <div id="doc" class="doc" hidden>
+      <p class="kicker" id="site-name" data-murmur-ui></p>
+      <article id="article">
+        <h1 class="title" id="title"></h1>
+        <!-- data-murmur-ui: the read-aloud walker skips this in every mode (byline, stats, button label). -->
+        <aside class="meta" data-murmur-ui>
+          <div class="meta-text">
+            <p class="byline" id="byline" hidden></p>
+            <p class="stats" id="stats"></p>
+          </div>
+          <button type="button" class="listen" id="listen" disabled>
+            <span class="listen-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M6.5 4.6v10.8a.8.8 0 0 0 1.2.7l8.6-5.4a.8.8 0 0 0 0-1.4L7.7 3.9a.8.8 0 0 0-1.2.7Z" fill="currentColor"/></svg></span>
+            <span>Listen</span>
+          </button>
+        </aside>
+        <div class="content" id="content"></div>
+      </article>
+      <footer class="doc-footer">
+        <a id="footer-source" target="_blank" rel="noopener noreferrer">Open original page</a>
+      </footer>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="../vendor/Readability.js"></script>
+  <script src="../vendor/purify.min.js"></script>
+  <script src="../lib/segment.js"></script>
+  <script src="../lib/normalize.js"></script>
+  <script src="../lib/align.js"></script>
+  <script src="../content/boot.js"></script>
+  <script src="../content/reader.js"></script>
+  <script src="../content/player.js"></script>
+  <script src="reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to Murmur</title>
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <img src="icons/icon128.png" alt="" width="72" height="72">
+      <h1>Murmur</h1>
+      <p class="muted">Natural read-aloud and dictation that runs entirely on your Mac.</p>
+    </header>
+
+    <ol class="steps">
+      <li id="step-server" class="step">
+        <div class="mark"></div>
+        <div class="body">
+          <h2>Start the voice server</h2>
+          <p class="state muted">Checking…</p>
+          <div class="help" hidden>
+            <p>Run this once in Terminal. It installs everything and keeps the server running in the background, including after a restart:</p>
+            <pre><code id="installCmd">~/src/murmur/scripts/install.sh</code></pre>
+            <button class="secondary" id="copyInstall">Copy command</button>
+          </div>
+        </div>
+      </li>
+
+      <li id="step-connect" class="step">
+        <div class="mark"></div>
+        <div class="body">
+          <h2>Connect the extension</h2>
+          <p class="state muted">Waiting for the server…</p>
+          <div class="help" hidden>
+            <p>Automatic pairing didn't work. Paste the token that <code>install.sh</code> printed. It's also stored in <code>~/Library/Application Support/Murmur/token</code>.</p>
+            <div class="inline"><input id="token" type="password" placeholder="Paste token" autocomplete="off"><button class="primary" id="saveToken">Connect</button></div>
+          </div>
+        </div>
+      </li>
+
+      <li id="step-mic" class="step">
+        <div class="mark"></div>
+        <div class="body">
+          <h2>Allow the microphone <span class="muted">(for dictation)</span></h2>
+          <p class="state muted">Murmur only listens while you're dictating (<kbd>⌥⇧D</kbd>). Audio is transcribed on your Mac and never leaves it.</p>
+          <button class="primary" id="allowMic">Allow microphone</button>
+          <p class="note muted">If nothing happens, open macOS <b>System Settings → Privacy &amp; Security → Microphone</b>, turn on <b>Dia</b>, then try again.</p>
+        </div>
+      </li>
+
+      <li id="step-keys" class="step">
+        <div class="mark"></div>
+        <div class="body">
+          <h2>Your shortcuts</h2>
+          <ul id="shortcuts" class="keys"></ul>
+          <p class="state muted"></p>
+          <button class="secondary" id="fixKeys" hidden>Set shortcuts</button>
+        </div>
+      </li>
+    </ol>
+
+    <section class="try">
+      <h2>Try it</h2>
+      <p class="muted">Press <b>Listen</b>, or hold <kbd>⌥</kbd> and click any sentence below to start reading from there.</p>
+      <article id="sample">
+        <p>Photosynthesis is the process by which plants, algae, and some bacteria convert light energy into chemical energy. In the light-dependent reactions, which take place in the thylakoid membranes, chlorophyll absorbs photons and uses that energy to split water molecules, releasing oxygen as a by-product (Smith et al., 2019, p. 34).</p>
+        <p>The energy captured is stored in ATP and NADPH, e.g. the molecules that power the Calvin cycle [12]. During the Calvin cycle, the enzyme RuBisCO fixes carbon dioxide into organic molecules, ultimately producing glucose. Fig. 3 shows how these two stages are linked.</p>
+      </article>
+      <button class="primary" id="listen">▶&nbsp; Listen</button>
+    </section>
+
+    <section class="tips">
+      <h2>Good to know</h2>
+      <ul>
+        <li><b>Dense page or busy course site?</b> Press <kbd>⌥⇧E</kbd> for Reader view: clean text, large type and a focus mode.</li>
+        <li><b>PDFs</b> open in Murmur's viewer automatically. Click <b>Read aloud</b> at the top right. For PDFs saved on your Mac, turn on <b>Allow access to file URLs</b> in Murmur's details on the extensions page.</li>
+        <li><b>Change speed or voice</b> in the floating player while it's reading. Your choice is remembered.</li>
+        <li><b>Dictation</b> types wherever your cursor is. Google Docs blocks direct typing, so the text is copied for you to paste with <kbd>⌘V</kbd>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="lib/segment.js"></script>
+  <script src="lib/normalize.js"></script>
+  <script src="lib/align.js"></script>
+  <script src="content/boot.js"></script>
+  <script src="content/reader.js"></script>
+  <script src="content/player.js"></script>
+  <script src="welcome.js"></script>
+</body>
+</html>

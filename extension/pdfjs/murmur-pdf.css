@@ -1,0 +1,71 @@
+/* Murmur additions to the pdf.js viewer. Uses the viewer's own theme variables. */
+
+.murmur-btn {
+  font: message-box;
+  font-size: 13px;
+  color: var(--main-color);
+  background-color: var(--toolbar-bg-color);
+  border: 1px solid var(--toolbar-border-color);
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.15);
+}
+.murmur-btn:hover:not(:disabled) {
+  background-color: var(--button-hover-color);
+}
+.murmur-btn:focus-visible {
+  outline: 2px solid var(--focus-ring-color, AccentColor);
+  outline-offset: 1px;
+}
+.murmur-btn:disabled {
+  cursor: progress;
+  opacity: 0.8;
+}
+
+#murmurRead {
+  position: absolute;
+  top: calc(var(--toolbar-height) + 10px);
+  inset-inline-end: 24px; /* clear of the scrollbar */
+  z-index: 1; /* above #viewerContainer, below the toolbar's dropdown menus */
+  opacity: 0.85;
+}
+#murmurRead:hover,
+#murmurRead:focus-visible,
+#murmurRead:disabled {
+  opacity: 1;
+}
+#murmurRead[hidden],
+#murmurNotice[hidden] {
+  display: none;
+}
+
+#murmurNotice {
+  position: absolute;
+  top: 30%;
+  inset-inline: 0;
+  margin-inline: auto;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 20px 24px;
+  text-align: center;
+  color: var(--main-color);
+  background-color: var(--toolbar-bg-color);
+  border: 1px solid var(--toolbar-border-color);
+  border-radius: 8px;
+  font: message-box;
+  font-size: 15px;
+}
+#murmurNotice p {
+  margin: 0 0 12px;
+}
+
+/* Text-layer spans are transparent and sit over the canvas: keep highlights translucent. */
+.textLayer ::highlight(murmur-sentence) {
+  background-color: rgb(255 214 0 / 0.28);
+  color: transparent;
+}
+.textLayer ::highlight(murmur-word) {
+  background-color: rgb(255 140 0 / 0.45);
+  color: transparent;
+}

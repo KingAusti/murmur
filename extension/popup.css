@@ -1,0 +1,19 @@
+body { width: 340px; padding: 14px; background: var(--bg); }
+header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+header .title { flex: 1; display: flex; flex-direction: column; }
+header h1 { font-size: 15px; }
+#status { font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
+button.small { padding: 5px 10px; font-size: 12px; }
+.actions { display: grid; gap: 8px; }
+.actions .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.actions button { justify-content: space-between; }
+.actions button kbd { background: rgba(255,255,255,.2); border-color: transparent; color: inherit; }
+.actions .secondary kbd { background: var(--chip); border-color: var(--line); }
+button.big { padding: 12px 14px; font-size: 15px; }
+.settings { margin-top: 14px; padding: 12px; border-radius: 12px; background: var(--panel); display: grid; gap: 12px; }
+.field { display: grid; gap: 6px; font-weight: 600; font-size: 12.5px; }
+.field > span { display: flex; justify-content: space-between; }
+.field output { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 500; }
+.field select, .field input { width: 100%; }
+.switch span { font-size: 12.5px; }
+footer { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; }

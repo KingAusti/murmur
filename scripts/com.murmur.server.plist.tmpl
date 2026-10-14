@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Rendered by scripts/install.sh into ~/Library/LaunchAgents. Do not edit the installed copy. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.murmur.server</string>
+
+  <!-- Absolute venv python: launchd's PATH is minimal, so no `uv run`. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>@PYTHON@</string>
+    <string>-m</string>
+    <string>murmur_server</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>@SERVER_DIR@</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HF_HOME</key>
+    <string>@HF_HOME@</string>
+    <key>HF_HUB_CACHE</key>
+    <string>@HF_HUB_CACHE@</string>
+    <key>HF_HUB_OFFLINE</key>
+    <string>1</string>
+    <key>MURMUR_HOME</key>
+    <string>@MURMUR_HOME@</string>
+    <key>MURMUR_PORT</key>
+    <string>@PORT@</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <!-- Interactive: no background QoS throttling, so first audio stays fast. -->
+  <key>ProcessType</key>
+  <string>Interactive</string>
+
+  <key>StandardOutPath</key>
+  <string>@LOG_FILE@</string>
+  <key>StandardErrorPath</key>
+  <string>@LOG_FILE@</string>
+</dict>
+</plist>

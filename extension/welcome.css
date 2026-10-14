@@ -1,0 +1,32 @@
+body { background: var(--panel); }
+main { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { text-align: center; margin-bottom: 32px; }
+.hero img { border-radius: 18px; box-shadow: 0 10px 30px rgba(255,90,40,.25); }
+.hero h1 { font-size: 34px; margin-top: 14px; }
+.hero p { font-size: 16px; margin: 6px 0 0; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.step { display: flex; gap: 14px; padding: 18px; border-radius: 16px; background: var(--bg); border: 1px solid var(--line); }
+.step .mark { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; margin-top: 1px; }
+.step.ok .mark { background: var(--ok); border-color: var(--ok); }
+.step.ok .mark::after { content: "✓"; color: #fff; font-weight: 700; font-size: 14px; }
+.step.bad .mark { border-color: var(--bad); }
+.step.wait .mark { border-color: #f5a623; border-top-color: transparent; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.step .body { flex: 1; min-width: 0; }
+.step h2 { font-size: 16px; }
+.step p { margin: 6px 0 0; }
+.step .help { margin-top: 10px; }
+.step button { margin-top: 10px; }
+.note { font-size: 12.5px; }
+pre { background: var(--panel); padding: 10px 12px; border-radius: 10px; overflow: auto; font-size: 13px; margin: 8px 0 0; }
+.inline { display: flex; gap: 8px; margin-top: 8px; }
+.inline input { flex: 1; }
+.inline button { margin-top: 0; }
+.keys { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; }
+.keys li { display: flex; justify-content: space-between; gap: 12px; }
+.keys .unbound { color: var(--bad); }
+.try, .tips { margin-top: 28px; padding: 22px; border-radius: 16px; background: var(--bg); border: 1px solid var(--line); }
+.try h2, .tips h2 { font-size: 18px; }
+#sample { margin: 14px 0; font: 17px/1.7 "Charter", "Iowan Old Style", Georgia, serif; }
+#sample p { margin: 0 0 12px; }
+.tips ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 8px; }

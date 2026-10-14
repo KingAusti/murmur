@@ -1,0 +1,90 @@
+{
+  "manifest_version": 3,
+  "name": "Murmur — Read Aloud & Dictate",
+  "short_name": "Murmur",
+  "version": "0.1.0",
+  "description": "Natural-sounding, fully local read-aloud and dictation. Powered by a server on your Mac.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+ZQsIEH08Z+XS3DXcPGTHD/OmW3cRWrJ4mo9xQImgJJNPE8+3QFaEC6ibL/DgqQR6F9YvblrMjXTT82IWc3KESL33sPyuN1DAbtyviTEcv19SI843T/7uioK3phZH4NlFsvTXvOBKmzLw9LtDIRTaVOKLECakkbNLRUpB3CMKac22Awhzio2PwCebIOBINUx9G4Gm+Xu1mos58wplzNLLsXKNcQ7rLoPK6HZbKX5BcFy/RTlwOzg3RKS9HJFwmn+UB7/n+wMzCzF2Oxgv5ABvfLKz0KUOvtEMeERTY2urCXFjrourHpuVRiGNjECWJ9Z1KH791IVfpTsRQ140UNlwQIDAQAB",
+  "minimum_chrome_version": "128",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Murmur",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "offscreen",
+    "alarms",
+    "storage",
+    "contextMenus",
+    "scripting",
+    "activeTab",
+    "declarativeNetRequestWithHostAccess",
+    "webNavigation",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/boot.js"
+      ],
+      "all_frames": true,
+      "match_origin_as_fallback": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "read": {
+      "suggested_key": {
+        "default": "Alt+Shift+R",
+        "mac": "Alt+Shift+R"
+      },
+      "description": "Read selection or page / pause"
+    },
+    "reader-view": {
+      "suggested_key": {
+        "default": "Alt+Shift+E",
+        "mac": "Alt+Shift+E"
+      },
+      "description": "Open Reader view"
+    },
+    "dictate": {
+      "suggested_key": {
+        "default": "Alt+Shift+D",
+        "mac": "Alt+Shift+D"
+      },
+      "description": "Start / stop dictation"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "pdfjs/web/viewer.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}

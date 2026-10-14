@@ -1,0 +1,39 @@
+/* Shared styles for the popup and welcome pages. */
+:root {
+  --fg: #1d1d1f; --muted: #6e6e73; --bg: #ffffff; --panel: #f5f5f7; --line: rgba(0,0,0,.08);
+  --accent: #ff7a1a; --accent-2: #ff375f; --ok: #28a745; --bad: #e5484d; --chip: rgba(0,0,0,.05);
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fg: #f5f5f7; --muted: #a1a1a6; --bg: #1c1c1e; --panel: #2c2c2e; --line: rgba(255,255,255,.1); --chip: rgba(255,255,255,.08); }
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1, h2, h3 { margin: 0; font-weight: 650; letter-spacing: -.01em; }
+a { color: var(--accent); }
+kbd { font: 600 11.5px/1 ui-monospace, "SF Mono", Menlo, monospace; padding: 3px 6px; border-radius: 6px; background: var(--chip); border: 1px solid var(--line); }
+.logo { width: 28px; height: 28px; border-radius: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.dot.ok { background: var(--ok); } .dot.bad { background: var(--bad); } .dot.wait { background: #f5a623; }
+button.primary, button.secondary, .btn {
+  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 600; border-radius: 10px; padding: 9px 14px;
+  display: inline-flex; align-items: center; gap: 8px; justify-content: center; transition: transform .08s, opacity .15s, background .15s;
+}
+button.primary { color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+button.secondary { color: var(--fg); background: var(--chip); }
+button.secondary:hover { background: var(--line); }
+button:active { transform: scale(.98); }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+select, input[type="text"], input[type="password"] {
+  font: inherit; color: var(--fg); background: var(--chip); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px;
+}
+input[type="range"] { accent-color: var(--accent); }
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; }
+.switch input { appearance: none; width: 34px; height: 20px; border-radius: 20px; background: var(--line); position: relative; cursor: pointer; transition: background .15s; flex: none; }
+.switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.3); transition: transform .15s; }
+.switch input:checked { background: var(--accent); }
+.switch input:checked::after { transform: translateX(14px); }
+.muted { color: var(--muted); }
+::highlight(murmur-sentence) { background-color: rgba(255, 214, 102, .32); }
+::highlight(murmur-word) { background-color: rgba(255, 166, 0, .55); }
