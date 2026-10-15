@@ -1,6 +1,7 @@
 {
   "name": "murmur-e2e",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": { "test": "node run.mjs" },
   "devDependencies": { "puppeteer": "^24.43.1" }

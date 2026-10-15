@@ -2,6 +2,7 @@
 name = "murmur-server"
 version = "0.1.0"
 description = "Local TTS (Kokoro) + STT (Parakeet) server for the Murmur extension"
+license = "MIT"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "mlx-audio==0.5.9",

@@ -1,1 +1,1 @@
-{"type":"module","private":true,"scripts":{"test":"node --test tests/"}}
+{"type":"module","private":true,"license":"MIT","scripts":{"test":"node --test tests/"}}

@@ -48,9 +48,25 @@ if (( purge )); then
   safe_rm "$LOG_DIR" && echo "Removed $LOG_DIR"
 fi
 
-if (( purge_models )); then
+if (( purge_models )) && [[ ! -d "${HF_HUB_CACHE:?}" ]]; then
+  echo "No Hugging Face cache at $HF_HUB_CACHE; nothing to purge"
+elif (( purge_models )); then
   # Only Murmur's own model folders; the rest of the cache may belong to other tools.
+  # Newer huggingface_hub keeps file contents in a shared, content-addressed $HF_HUB_CACHE/blobs
+  # and the model folders only hold symlinks into it, so delete the targets too, except any that
+  # another model in the cache still points at.
+  is_murmur() { local m; for m in "${MODELS[@]}"; do [[ "$1" == "$m" ]] && return 0; done; return 1; }
+  shared_root="$(cd "${HF_HUB_CACHE:?}" 2>/dev/null && pwd -P)/blobs"
+  keep="$(for d in "$HF_HUB_CACHE"/models--*/blobs; do
+            if [[ ! -d "$d" ]] || is_murmur "$(basename "$(dirname "$d")")"; then continue; fi
+            for l in "$d"/*; do [[ -L "$l" ]] && readlink -f "$l"; done
+          done | sort -u)"
   for m in "${MODELS[@]}"; do
+    for l in "$HF_HUB_CACHE/$m"/blobs/*; do
+      [[ -L "$l" ]] || continue
+      t="$(readlink -f "$l")" || continue
+      [[ "$t" == "$shared_root"/* ]] && ! grep -qxF "$t" <<<"$keep" && rm -f "$t"
+    done
     rm -rf "${HF_HUB_CACHE:?}/$m"
   done
   echo "Removed Murmur models from $HF_HUB_CACHE"

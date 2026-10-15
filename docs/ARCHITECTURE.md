@@ -16,7 +16,7 @@ reader context ──Port "murmur-reader"──► background SW ──runtime m
   - it attaches to `globalThis.Murmur` (`globalThis.Murmur = globalThis.Murmur || {}`);
   - it is wrapped in an IIFE and is idempotent (safe to inject twice).
 - Node tests (`node --test extension/tests`) load these files with `await import(path)` for their side effects, then read `globalThis.Murmur`.
-- Each lib must be pure: it uses no DOM and needs only `Intl.Segmenter`, which Node 26 has.
+- Each lib must be pure: it uses no DOM and needs only `Intl.Segmenter` (available in Node 16 and later).
 
 ## lib contracts (pure functions)
 
@@ -98,7 +98,7 @@ Only one reading session plays at a time. A new `load` from another port stops t
 - Extension pages (reader view, PDF viewer) load these scripts statically.
   - Commands reach them through `chrome.runtime.sendMessage({..., __tab: tabId})`, and each page filters on its own tab ID.
 
-## Robustness notes (from the adversarial review)
+## Robustness notes
 - **Keeping the service worker awake.**
   - MV3 service workers sleep after about 30 s idle, which drops reader ports and in-memory state.
   - While a session exists (including paused), or while dictation is starting, recording or transcribing, the offscreen document sends a `keepalive` runtime message every 20 s.
